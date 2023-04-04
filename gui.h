@@ -6,27 +6,24 @@
 #define ACTIVITYTRACKER_GUI_H
 
 #include <wx/frame.h>
+#include <wx/wx.h>
 #include <string>
 using namespace std;
 
-class Menu{
+class GUI : public wxFrame{ // Inherit from wxFrame to create a frame
 public:
-    Menu(const string &title, char trigger, int optionsSize);
-    void nextOption();
-    void prevOption();
-protected:
-    string title;
-    char trigger;
-    int optionsSize;
-    int selectedOption;
-    int startX = 2;
+    GUI(const wxString &title, const wxPoint &pos, const wxSize &size);
+
+
+private:
+    wxPanel *panel; // A panel is a container for widgets
+    void OnExit(wxCommandEvent &event);
+    void test(wxCommandEvent &event);
 };
 
-class SubMenu: public Menu{
+class App : public wxApp{  // Inherit from wxApp to create an application
 public:
-    SubMenu(const string &title, char trigger, int optionsSize, Menu *parentMenu);
-private:
-    Menu *parentMenu;
+    virtual bool OnInit();
 };
 
 #endif //ACTIVITYTRACKER_GUI_H
