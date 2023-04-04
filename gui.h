@@ -5,16 +5,15 @@
 #ifndef ACTIVITYTRACKER_GUI_H
 #define ACTIVITYTRACKER_GUI_H
 
-#include <curses.h>
+#include <wx/frame.h>
 #include <string>
 using namespace std;
 
 class Menu{
 public:
-    Menu(string &title, char trigger, int optionsSize);
+    Menu(const string &title, char trigger, int optionsSize);
     void nextOption();
     void prevOption();
-    void draw(WINDOW *win);
 protected:
     string title;
     char trigger;
@@ -23,5 +22,11 @@ protected:
     int startX = 2;
 };
 
+class SubMenu: public Menu{
+public:
+    SubMenu(const string &title, char trigger, int optionsSize, Menu *parentMenu);
+private:
+    Menu *parentMenu;
+};
 
 #endif //ACTIVITYTRACKER_GUI_H

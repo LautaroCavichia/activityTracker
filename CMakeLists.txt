@@ -3,8 +3,9 @@ project(activityTracker)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(activityTracker main.cpp gui.cpp gui.h)
-#adding ncurses library
-find_package(Curses REQUIRED)
-include_directories(${CURSES_INCLUDE_DIR})
-target_link_libraries(activityTracker ${CURSES_LIBRARIES})
+add_executable(activityTracker main.cpp gui.cpp gui.h activity.cpp activity.h activity_log.cpp activity_log.h)
+#adding wxWidgets library
+find_package(wxWidgets REQUIRED COMPONENTS core base)
+include(${wxWidgets_USE_FILE})
+target_link_libraries(activityTracker ${wxWidgets_LIBRARIES})
+

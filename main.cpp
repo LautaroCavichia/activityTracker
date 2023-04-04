@@ -1,20 +1,25 @@
 #include <iostream>
-#include "gui.h"
+#include "activity.h"
+#include "activity_log.h"
 
 using namespace std;
 
 int main() {
-    initscr(); // Initialize the screen
-    noecho();
-    curs_set(0);
+    Activity activity1("Workout", "04/04/2023 09:45:00", "04/04/2023 10:00:00", "Cardio workout");
+    Activity activity2("Meeting", "05/04/2023 11:00:00", "05/04/2023 12:00:00", "Team meeting");
+    Activity activity3("Lunch", "05/04/2023 18:00:00", "04/04/2023 14:00:00", "Lunch break");
 
-    int maxY, maxX;
-    getmaxyx(stdscr, maxY, maxX); // Get the max size of the screen
+    ActivityLog activityLog;
+    activityLog.addActivity(activity1);
+    activityLog.addActivity(activity2);
+    activityLog.addActivity(activity3);
 
-    WINDOW *Win = newwin(maxY/2, maxX/2, maxY/4, maxX/4); // Create a new window
-    box(Win, 0, 0); // Draw a box around the window
+    cout << "Activities on 04/04/2023:" << endl;
+    vector<Activity> activitiesOnDate = activityLog.searchByDate("05/04/2023");
+    for (const Activity& activity : activitiesOnDate) {
+        cout << activity.getName() << " - " << activity.getDescription() <<" - " << activity.getStartTimeString() <<" - " << activity.getEndTimeString()  << " - " << activity.getDuration() << endl;
+    }
 
-    Menu menu((string &) "File", 'f', 3); // Create a new menu item
-    menu.draw(Win); // Draw the menu item
-    wgetch(Win); // Wait for a key press
+    return 0;
 }
+

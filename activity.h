@@ -23,9 +23,9 @@ public:
     string getDescription() const;
     int getDuration() const;
     void setStartTime(const string &startTimeString);
-    string getStartTimeString();
+    string getStartTimeString(bool onlyTime = true) const;
     void setEndTime(const string &endTimeString);
-    string getEndTimeString();
+    string getEndTimeString(bool onlyTime = true) const;
     string getDateString() const;
 
 private:
@@ -36,6 +36,7 @@ private:
     chrono::system_clock::time_point endTime;   // Time point of the end of the activity
 
     static chrono::system_clock::time_point stringToTimePoint(const string &timeString);  // Converts a string to a time point
+    static bool isEndAfterStart(const string &startTimeString, const string &endTimeString) ;
 };
 
 #endif //ACTIVITYTRACKER_ACTIVITY_H

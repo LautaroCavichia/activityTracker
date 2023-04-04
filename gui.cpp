@@ -3,10 +3,10 @@
 //
 
 #include "gui.h"
-#include <curses.h>
+#include <wx/frame.h>
 #include <string>
 
-Menu::Menu(string &title, char trigger, int optionsSize): title(title), trigger(trigger), optionsSize(optionsSize){
+Menu::Menu(const string &title, char trigger, int optionsSize): title(title), trigger(trigger), optionsSize(optionsSize){
     selectedOption = 0; // Default selected option
 }
 
@@ -18,7 +18,6 @@ void Menu::prevOption() {
     selectedOption = (selectedOption - 1) % optionsSize;
 }
 
-void Menu::draw(WINDOW *win) {
-    mvwprintw(win, 0, startX, title.c_str());
+SubMenu::SubMenu(const string &title, char trigger, int optionsSize, Menu *parentMenu): Menu(title, trigger, optionsSize), parentMenu(parentMenu) {
 
 }
