@@ -71,3 +71,11 @@ chrono::system_clock::time_point Activity::stringToTimePoint(const string &timeS
     return chrono::system_clock::from_time_t(mktime(&time)); // Convert tm to time_point
 }
 
+string Activity::getDateString() const {  // Returns the date of the activity in the format dd/mm/yyyy
+        time_t startTime_t = chrono::system_clock::to_time_t(this->startTime); // Convert time_point to time_t
+        tm time = *localtime(&startTime_t); // Convert time_t to tm
+        char buffer[80];
+        strftime(buffer, 80, "%d/%m/%Y", &time); // Convert tm to string
+        return string(buffer);
+    }
+

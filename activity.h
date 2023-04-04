@@ -26,6 +26,7 @@ public:
     string getStartTimeString();
     void setEndTime(const string &endTimeString);
     string getEndTimeString();
+    string getDateString() const;
 
 private:
     string description;
