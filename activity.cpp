@@ -6,8 +6,10 @@
 
 
 Activity::Activity(const string &name, const string &startTimeString, const string &endTimeString, const string &description):
-name(name), description(description), startTime(stringToTimePoint(startTimeString)), endTime(stringToTimePoint(endTimeString)) {
-    this->duration = chrono::duration_cast<chrono::minutes>(this->endTime - this->startTime).count();
+name(name), description(description){
+    setStartTime(startTimeString); // Set the start time checking if it's valid
+    setEndTime(endTimeString);     // Set the end time checking if it's valid
+    duration = chrono::duration_cast<chrono::minutes>(endTime - startTime).count(); // Calculate the duration of the activity in minutes
 }
 
 void Activity::setName(const string &nameString) {
@@ -45,11 +47,21 @@ string Activity::getEndTimeString() {
 }
 
 void Activity::setStartTime(const string &startTimeString) {
-    this->startTime = stringToTimePoint(startTimeString);
+    if (!startTimeString.empty())
+        this->startTime = stringToTimePoint(startTimeString);
+    else {
+        this->startTime = chrono::system_clock::now();
+        //TODO: Add a message to the user saying that the start time is invalid and was set to the current time
+    }
 }
 
 void Activity::setEndTime(const string &endTimeString) {
-    this->endTime = stringToTimePoint(endTimeString);
+    // check if the end time is valid and greater than the start time
+    if(endTimeString.empty() || stringToTimePoint(endTimeString) < this->startTime)
+        this->endTime = stringToTimePoint(endTimeString);
+    else {
+        //TODO: Add a message to the user saying that the end time is invalid
+    }
 }
 
 chrono::system_clock::time_point Activity::stringToTimePoint(const string &timeString) {
