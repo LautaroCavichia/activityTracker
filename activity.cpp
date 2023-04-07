@@ -10,7 +10,7 @@
 Activity::Activity(const string &name, const string &startTimeString, const string &endTimeString, const string &description):
 name(name), description(description){
     setStartTime(startTimeString); // Set the start time checking if it's valid
-    setEndTime(endTimeString);     // Set the end time checking if it's valid
+    setEndTime(startTimeString,endTimeString);     // Set the end time checking if it's valid
     duration = chrono::duration_cast<chrono::minutes>(endTime - startTime).count(); // Calculate the duration of the activity in minutes
 }
 
@@ -75,9 +75,9 @@ void Activity::setStartTime(const string &startTimeString) {
     }
 }
 
-void Activity::setEndTime(const string &endTimeString) {
+void Activity::setEndTime(const string &startTimeString, const string &endTimeString) {
     // check if the end time is valid and greater than the start time
-    if(isEndAfterStart(getStartTimeString(false), endTimeString))
+    if(isEndAfterStart(startTimeString, endTimeString))
         this->endTime = stringToTimePoint(endTimeString);
     else {
         this->endTime = this->startTime;

@@ -24,7 +24,7 @@ public:
     int getDuration() const;
     void setStartTime(const string &startTimeString);
     string getStartTimeString(bool onlyTime = true) const;
-    void setEndTime(const string &endTimeString);
+    void setEndTime(const string &startTimeString, const string &endTimeString);
     string getEndTimeString(bool onlyTime = true) const;
     string getDateString() const;
 
