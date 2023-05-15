@@ -23,5 +23,5 @@ vector<Activity> ActivityLog::searchByDate(const string &dateString) const {
             activitiesOnDate.push_back(activity); // Add the activity to the vector
         }
     }
-    return activitiesOnDate; //FIXME: Return a reference to the vector? is possible?
+    return activitiesOnDate; //Return a reference to the vector? is it possible?
 }

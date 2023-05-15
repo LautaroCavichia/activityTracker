@@ -1,5 +1,5 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
+//#pragma clang diagnostic push
+//#pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 //
 // Created by Lautaro Cavichia on 03/04/23.
 //
@@ -16,6 +16,8 @@ enum IDs {
     ID_Description = 111,
     ID_SearchDate = 120,
     ID_ActivityList = 130,
+    ID_ActivityDelete = 140,
+    ID_ActivityEdit = 141,
 };
 
 wxBEGIN_EVENT_TABLE(GUI, wxFrame)
@@ -26,10 +28,14 @@ wxBEGIN_EVENT_TABLE(GUI, wxFrame)
                 EVT_TEXT(ID_ActivityName, GUI::OnActivityName)
                 EVT_TEXT(ID_Description, GUI::OnAddDescription)
                 EVT_BUTTON(ID_SearchDate, GUI::OnSearchByDate)
+                EVT_LISTBOX_DCLICK(ID_ActivityList, GUI::OnActivityRightClick)
+                EVT_MENU(ID_ActivityDelete, GUI::OnActivityDelete)
+                EVT_MENU(ID_ActivityEdit, GUI::OnActivityEdit)
 wxEND_EVENT_TABLE()
 
 GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame(nullptr, wxID_ANY, title, pos,wxSize(600,400), wxDEFAULT_FRAME_STYLE) {
 
+    //TODO enable TAB navigation
 
     //disable resizing
     this->SetSizeHints( 600, 400 );
@@ -57,9 +63,11 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
 
     //Start time picker
     m_startTime = new wxTimePickerCtrl(this, ID_StartTime, wxDateTime::Now().GetHour(), wxDefaultPosition, wxDefaultSize, wxTP_DEFAULT); //TODO eliminate seconds
+    m_startTime->SetTime(wxDateTime::Now().GetHour(), 0, 0); //setting default time
     bSizer4->Add( m_startTime, 0, wxALIGN_CENTER, 5 );
     //End time picker
     m_endTime = new wxTimePickerCtrl(this, ID_EndTime, wxDateTime::Now().Add(wxTimeSpan::Hours(1)).GetHour(), wxDefaultPosition, wxDefaultSize, wxTP_DEFAULT); //TODO eliminate seconds
+    m_endTime->SetTime(wxDateTime::Now().Add(wxTimeSpan::Hours(1)).GetHour(),0,0); //setting default time
     bSizer4->Add( m_endTime, 0, wxALIGN_CENTER, 5 );
 
 
@@ -67,7 +75,8 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
 
 
     //Date picker
-    m_datePicker1 = new wxDatePickerCtrl( this, ID_Date, wxDateTime::Today(), wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT ); //today as default date
+    m_datePicker1 = new wxDatePickerCtrl( this, ID_Date, wxDateTime::Now(), wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT );
+    m_datePicker1->SetValue(wxDateTime::Now()); //setting default date
     bSizer3->Add( m_datePicker1, 0, wxALIGN_CENTER|wxALL, 10 );
 
     //Search date button
@@ -79,7 +88,7 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
     bSizer5->Add( bSizer3, 1, wxALIGN_CENTER|wxALL, 10 );
 
     //Activity name text box
-    m_ActivityName = new wxTextCtrl( this, ID_ActivityName, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    m_ActivityName = new wxTextCtrl( this, ID_ActivityName, wxEmptyString, wxDefaultPosition, wxDefaultSize,0);
     m_ActivityName->SetHint( wxT("Activity Name") );
     m_ActivityName->SetMinSize( wxSize( 150,25 ) );
     bSizer5->Add( m_ActivityName, 0, wxALIGN_CENTER|wxALL, 5 );
@@ -103,11 +112,18 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
     //Activities list
     m_notebook1 = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0);
     m_notebook1->SetMinSize( wxSize( 250,300 ) );
-    m_notebookPage1 = new wxTextCtrl( m_notebook1, ID_ActivityList, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+    m_notebook1->SetWindowStyleFlag(wxCENTER); // centering the text
+    m_notebookPage1 = new wxTextCtrl( m_notebook1, ID_ActivityList, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
     m_notebookPage1->SetEditable(false);
 
     m_notebook1->AddPage( m_notebookPage1, wxT("Activities"), true );
     bSizer8->Add( m_notebook1, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+    m_ActivityListBox = new wxListBox(m_notebookPage1, wxID_ANY, wxDefaultPosition, wxDefaultSize); // Listbox for activities, better than textctrl for this purpose
+    m_ActivityListBox->Connect(wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler(GUI::OnActivityRightClick), nullptr, this);
+    m_notebookPage1->SetSizer(new wxBoxSizer(wxVERTICAL));
+    m_notebookPage1->GetSizer()->Add(m_ActivityListBox, 1, wxEXPAND);
+
 
 
     bSizer1->Add( bSizer8, 1, wxALIGN_CENTER, 5 );
@@ -129,6 +145,7 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
 }
 
 void GUI::OnSelectStartTime(wxDateEvent &event) {
+    //check if time has been changed
     activityStartTime = event.GetDate();
     formattedActivityStartTime = activityStartTime.Format("%H:%M");
 }
@@ -154,9 +171,20 @@ void GUI::OnAddDescription(wxCommandEvent &event) {
 void GUI::OnAddActivityButton(wxCommandEvent &event) {
 
     //check if all fields are filled
-if(wxIsEmpty(activityName) || wxIsEmpty(formattedActivityStartTime) || wxIsEmpty(formattedActivityEndTime) || wxIsEmpty(formattedDate) || wxIsEmpty(activityDescription)){
+if(wxIsEmpty(activityName) || wxIsEmpty(activityDescription)){
         wxMessageBox("Please fill all fields", "Error", wxOK | wxICON_ERROR);
         return;
+    }
+
+    //if values have not been changed, set them to current time
+    if(!activityStartTime.IsValid()){
+        activityStartTime = wxDateTime::Now();
+    }
+    if(!activityEndTime.IsValid()){
+        activityEndTime = wxDateTime::Now();
+    }
+    if(!activityDate.IsValid()){
+        activityDate = wxDateTime::Now();
     }
 
     //check if start time is before end time
@@ -165,8 +193,10 @@ if(wxIsEmpty(activityName) || wxIsEmpty(formattedActivityStartTime) || wxIsEmpty
         return;
     }
 
-    //TODO check if activity with same name already exists
-
+    if(!activityStartTime.IsValid() || !activityEndTime.IsValid() || !activityDate.IsValid()){
+        wxMessageBox("Invalid date or time", "Error", wxOK | wxICON_ERROR);
+        return;
+    }
 
     wxDateTime startDateTime = wxDateTime(m_datePicker1->GetValue().GetDay(), m_datePicker1->GetValue().GetMonth(), m_datePicker1->GetValue().GetYear(), m_startTime->GetValue().GetHour(), 0);
     wxDateTime endDateTime = wxDateTime(m_datePicker1->GetValue().GetDay(), m_datePicker1->GetValue().GetMonth(), m_datePicker1->GetValue().GetYear(), m_endTime->GetValue().GetHour(), 0);
@@ -177,12 +207,15 @@ if(wxIsEmpty(activityName) || wxIsEmpty(formattedActivityStartTime) || wxIsEmpty
 
     //Add activity to database calling activity class constructor
     Activity activity(activityName.ToStdString(),formattedDateActivityStartTime.ToStdString(), formattedDateActivityEndTime.ToStdString(), activityDescription.ToStdString());
-    activityLog.addActivity(activity); //FIXME
 
+    activityLog.addActivity(activity);
+    m_ActivityName->Clear();
+    m_Description->Clear();
+    m_ActivityName->SetFocus();
 
-    wxLogStatus("Activity " + activityName + " added at " + formattedActivityStartTime + " to " + formattedActivityEndTime + " on " + formattedDate);
-    m_notebookPage1->AppendText(activity.getName() + " - " + activity.getStartTimeString() + " - " + activity.getEndTimeString() + " on " + activity.getDateString() + "\n");
-
+    wxLogStatus("Activity " + activityName + " added from " + formattedActivityStartTime + " to " + formattedActivityEndTime + " on " + formattedDate);
+    //m_notebookPage1->AppendText(activity.getName() + " - " + activity.getStartTimeString() + " - " + activity.getEndTimeString() + " on " + activity.getDateString() + "\n");
+    m_ActivityListBox->Append(activity.getName() + " - " + activity.getStartTimeString() + " to " + activity.getEndTimeString() + "\n"); //listbox version
 
 
 }
@@ -190,12 +223,49 @@ if(wxIsEmpty(activityName) || wxIsEmpty(formattedActivityStartTime) || wxIsEmpty
 void GUI::OnSearchByDate(wxCommandEvent &event) {
     wxString searchDate = m_datePicker1->GetValue().Format("%d/%m/%Y");
     std::vector<Activity> activitiesOnDate = activityLog.searchByDate(searchDate.ToStdString());
-    m_notebookPage1->Clear();
+    //m_notebookPage1->Clear();
+    m_ActivityListBox->Clear(); //listbox version
     for (const Activity& activity : activitiesOnDate) {
         wxString listItem = activity.getName() + wxT(" - ") + activity.getStartTimeString() + wxT(" to ") + activity.getEndTimeString() + wxT("\n");
         std::cout << listItem.ToStdString() << std::endl;
-        m_notebookPage1->AppendText(listItem);
+        //m_notebookPage1->AppendText(listItem);
+        m_ActivityListBox->Append(listItem); //listbox version
+
     }
+}
+
+void GUI::OnActivityRightClick(wxCommandEvent &event) {
+    wxMenu menu;
+    menu.Append(ID_Description,wxT("See Description"));
+    menu.Append(ID_ActivityDelete, wxT("Delete"));
+    menu.Append(ID_ActivityEdit, wxT("Edit"));
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &GUI::OnSeeDescription, this, ID_Description);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &GUI::OnActivityDelete, this, ID_ActivityDelete);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &GUI::OnActivityEdit, this, ID_ActivityEdit);
+    PopupMenu(&menu);
+}
+
+
+void GUI::OnActivityDelete(wxCommandEvent &event) {
+    int selection = m_ActivityListBox->GetSelection();
+        m_ActivityListBox->Delete(selection);
+        activityLog.removeActivity(selection);
+    }
+
+
+void GUI::OnActivityEdit(wxCommandEvent &event) {
+int selection = m_ActivityListBox->GetSelection();
+m_button1->SetLabel("Update");
+m_ActivityName->SetValue(activityLog.getActivity(selection).getName());
+m_Description->SetValue((activityLog.getActivity(selection).getDescription()));
+OnActivityDelete(event);
+m_button1->SetLabel("Add Activity");
+}
+
+void GUI::OnSeeDescription(wxCommandEvent &event) {
+    int selection = m_ActivityListBox->GetSelection();
+    wxString description = activityLog.getActivity(selection).getDescription();
+    wxMessageBox(description, "Description", wxOK | wxICON_INFORMATION);
 }
 
 bool App::OnInit() {
@@ -203,6 +273,3 @@ bool App::OnInit() {
     frame->Show(true);
     return true;
 }
-
-
-#pragma clang diagnostic pop

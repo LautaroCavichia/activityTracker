@@ -39,6 +39,10 @@ private:
     void OnAddDescription(wxCommandEvent &event);
     void OnAddActivityButton(wxCommandEvent &event);
     void OnSearchByDate(wxCommandEvent &event);
+    void OnActivityRightClick(wxCommandEvent &event);
+    void OnActivityDelete(wxCommandEvent &event);
+    void OnActivityEdit(wxCommandEvent &event);
+    void OnSeeDescription(wxCommandEvent &event);
 
     wxString activityName;
     wxString activityDescription;
@@ -48,7 +52,6 @@ private:
     wxString formattedActivityStartTime = wxDateTime::Now().Format(wxT("%H:00")); //Now as default value
     wxString formattedActivityEndTime = wxDateTime::Now().Add(wxTimeSpan::Hours(1)).Format(wxT("%H:00")); //Now + one hour as default value
     wxString formattedDate = wxDateTime::Now().Format("%d/%m/%Y"); //Now as default value
-    wxStaticText* m_staticText1;
     wxTimePickerCtrl *m_startTime;
     wxTimePickerCtrl *m_endTime;
     wxDatePickerCtrl* m_datePicker1;
@@ -59,6 +62,7 @@ private:
     wxNotebook* m_notebook1;
     wxTextCtrl* m_notebookPage1;
     ActivityLog activityLog;
+    wxListBox* m_ActivityListBox;
 
     DECLARE_EVENT_TABLE()
 };

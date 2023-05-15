@@ -3,14 +3,12 @@
 #include "activity_log.h"
 #include "gui.h"
 #include "wx/app.h" // This is the wxWidgets app class
-#include <wx/wx.h>
 using namespace std;
 
 wxIMPLEMENT_APP_NO_MAIN(App); // This is the wxWidgets macro to create the app class
 
 int main(int argc, char *argv[]) {
 
-    wxApp *app = new App();
     wxEntryStart(argc, argv);
     wxTheApp->CallOnInit();
 
