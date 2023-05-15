@@ -21,10 +21,6 @@
 #include "activity.h"
 #include "activity_log.h"
 
-
-
-
-
 using namespace std;
 
 class GUI : public wxFrame{ // Inherit from wxFrame to create a frame
@@ -71,8 +67,5 @@ class App : public wxApp{  // Inherit from wxApp to create an application
 public:
      bool OnInit() override;
 };
-
-
-
 
 #endif //ACTIVITYTRACKER_GUI_H

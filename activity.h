@@ -11,7 +11,6 @@
 #include <chrono>   // For time_point
 #include <iomanip> // For get_time
 
-
 using namespace std;
 
 class Activity{

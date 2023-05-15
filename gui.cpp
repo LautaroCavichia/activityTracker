@@ -70,9 +70,7 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
     m_endTime->SetTime(wxDateTime::Now().Add(wxTimeSpan::Hours(1)).GetHour(),0,0); //setting default time
     bSizer4->Add( m_endTime, 0, wxALIGN_CENTER, 5 );
 
-
     bSizer5->Add( bSizer4, 1, wxALIGN_CENTER|wxALL, 10 );
-
 
     //Date picker
     m_datePicker1 = new wxDatePickerCtrl( this, ID_Date, wxDateTime::Now(), wxDefaultPosition, wxDefaultSize, wxDP_DEFAULT );
@@ -139,7 +137,6 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
     this->Layout();
 
     this->Centre( wxBOTH );
-
     CreateStatusBar();
 
 }

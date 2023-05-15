@@ -17,7 +17,7 @@ public:
     void addActivity(const Activity &activity);
     void removeActivity(int index);
     Activity &getActivity(int index); // Returns a reference to the activity at the given index
-    vector<Activity> searchByDate(const string &dateString)const; // Returns a vector of activities that match the date (Project requirement)
+    [[nodiscard]] vector<Activity> searchByDate(const string &dateString)const; // Returns a vector of activities that match the date (Project requirement)
 
     //TODO: Add sorting methods and log to file methods
 

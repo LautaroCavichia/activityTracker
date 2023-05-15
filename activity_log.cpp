@@ -1,7 +1,6 @@
 //
 // Created by Lautaro Cavichia on 04/04/23.
 //
-
 #include "activity_log.h"
 
 void ActivityLog::addActivity(const Activity &activity) {

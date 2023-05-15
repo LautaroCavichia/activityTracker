@@ -4,9 +4,6 @@
 
 #include "activity.h"
 
-
-
-
 Activity::Activity(const string &name, const string &startTimeString, const string &endTimeString, const string &description):
 name(name), description(description){
     setStartTime(startTimeString); // Set the start time checking if it's valid
@@ -71,7 +68,6 @@ void Activity::setStartTime(const string &startTimeString) {
         this->startTime = stringToTimePoint(startTimeString);
     else {
         this->startTime = chrono::system_clock::now();
-        //TODO: Add a message to the user saying that the start time is invalid and was set to the current time
     }
 }
 
@@ -81,7 +77,6 @@ void Activity::setEndTime(const string &startTimeString, const string &endTimeSt
         this->endTime = stringToTimePoint(endTimeString);
     else {
         this->endTime = this->startTime;
-        //TODO: Add a message to the user saying that the end time is invalid
     }
 }
 
