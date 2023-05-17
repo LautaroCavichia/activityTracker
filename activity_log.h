@@ -13,7 +13,6 @@ using namespace std;
 
 class ActivityLog{
 public:
-    ActivityLog(): activities(vector<Activity>()){}
     void addActivity(const Activity &activity);
     void removeActivity(int index);
     Activity &getActivity(int index); // Returns a reference to the activity at the given index

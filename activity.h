@@ -16,11 +16,8 @@ using namespace std;
 class Activity{
 public:
     Activity(const string &nameString, const string &startTimeString, const string &endTimeString, const string &descriptionString);
-    void setName(const string &nameString);
     string getName() const;
-    void setDescription(const string &descriptionString);
     string getDescription() const;
-    int getDuration() const;
     void setStartTime(const string &startTimeString);
     string getStartTimeString(bool onlyTime = true) const;
     void setEndTime(const string &startTimeString, const string &endTimeString);
@@ -28,9 +25,8 @@ public:
     string getDateString() const;
 
 private:
-    string description;
     string name;
-    long duration;
+    string description;
     chrono::system_clock::time_point startTime; // Time point of the start of the activity
     chrono::system_clock::time_point endTime;   // Time point of the end of the activity
 

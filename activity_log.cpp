@@ -15,7 +15,7 @@ void ActivityLog::removeActivity(int index) {
     this->activities.erase(this->activities.begin() + index);
 }
 
-vector<Activity> ActivityLog::searchByDate(const string &dateString) const {
+[[nodiscard]] vector<Activity> ActivityLog::searchByDate(const string &dateString) const {
     vector<Activity> activitiesOnDate;
     for (const Activity& activity : this->activities) { // For each activity in the activities vector
         if (activity.getDateString().find(dateString) != string::npos) {  // If the date string is found in the activity date string. npos means not found in the string

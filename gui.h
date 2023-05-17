@@ -39,6 +39,7 @@ private:
     void OnActivityDelete(wxCommandEvent &event);
     void OnActivityEdit(wxCommandEvent &event);
     void OnSeeDescription(wxCommandEvent &event);
+    static void OnAboutMe(wxCommandEvent &event);
 
     wxString activityName;
     wxString activityDescription;
@@ -51,14 +52,14 @@ private:
     wxTimePickerCtrl *m_startTime;
     wxTimePickerCtrl *m_endTime;
     wxDatePickerCtrl* m_datePicker1;
-    wxTextCtrl* m_ActivityName;
-    wxTextCtrl* m_Description;
+    wxTextCtrl* m_activityName;
+    wxTextCtrl* m_description;
     wxButton* m_searchButton;
-    wxButton* m_button1;
+    wxButton* m_addActivityButton;
     wxNotebook* m_notebook1;
     wxTextCtrl* m_notebookPage1;
     ActivityLog activityLog;
-    wxListBox* m_ActivityListBox;
+    wxListBox* m_activityListBox;
 
     DECLARE_EVENT_TABLE()
 };

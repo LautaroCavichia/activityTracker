@@ -8,27 +8,14 @@ Activity::Activity(const string &name, const string &startTimeString, const stri
 name(name), description(description){
     setStartTime(startTimeString); // Set the start time checking if it's valid
     setEndTime(startTimeString,endTimeString);     // Set the end time checking if it's valid
-    duration = chrono::duration_cast<chrono::minutes>(endTime - startTime).count(); // Calculate the duration of the activity in minutes
-}
-
-void Activity::setName(const string &nameString) {
-    this->name = nameString;
 }
 
 string Activity::getName() const {
     return this->name;
 }
 
-void Activity::setDescription(const string &descriptionString) {
-    this->description = descriptionString;
-}
-
 string Activity::getDescription() const {
     return this->description;
-}
-
-int Activity::getDuration() const {
-    return this->duration;
 }
 
 string Activity::getStartTimeString(bool onlyTime)const {
@@ -111,6 +98,6 @@ string Activity::getDateString() const {  // Returns the date of the activity in
         tm time = *localtime(&startTime_t); // Convert time_t to tm
         char buffer[80];
         strftime(buffer, 80, "%d/%m/%Y", &time); // Convert tm to string
-        return string(buffer);
+        return buffer;
     }
 
