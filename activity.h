@@ -6,10 +6,7 @@
 #define ACTIVITYTRACKER_ACTIVITY_H
 
 #include <string>
-#include <ctime>     // For time_t
-#include <sstream>  // For string stream
-#include <chrono>   // For time_point
-#include <iomanip> // For get_time
+#include <chrono>
 
 using namespace std;
 
@@ -19,19 +16,15 @@ public:
     string getName() const;
     string getDescription() const;
     void setStartTime(const string &startTimeString);
-    string getStartTimeString(bool onlyTime = true) const;
     void setEndTime(const string &startTimeString, const string &endTimeString);
-    string getEndTimeString(bool onlyTime = true) const;
-    string getDateString() const;
+    const chrono::system_clock::time_point &getStartTime() const;
+    const chrono::system_clock::time_point &getEndTime() const;
 
 private:
     string name;
     string description;
-    chrono::system_clock::time_point startTime; // Time point of the start of the activity
-    chrono::system_clock::time_point endTime;   // Time point of the end of the activity
-
-    static chrono::system_clock::time_point stringToTimePoint(const string &timeString);  // Converts a string to a time point
-    static bool isEndAfterStart(const string &startTimeString, const string &endTimeString) ;
+    chrono::system_clock::time_point startTime;
+    chrono::system_clock::time_point endTime;
 };
 
 #endif //ACTIVITYTRACKER_ACTIVITY_H

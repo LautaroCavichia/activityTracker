@@ -2,6 +2,7 @@
 // Created by Lautaro Cavichia on 04/04/23.
 //
 #include "activity_log.h"
+#include "TimeUtilities.h"
 
 void ActivityLog::addActivity(const Activity &activity) {
     this->activities.push_back(activity);
@@ -18,7 +19,7 @@ void ActivityLog::removeActivity(int index) {
 [[nodiscard]] vector<Activity> ActivityLog::searchByDate(const string &dateString) const {
     vector<Activity> activitiesOnDate;
     for (const Activity& activity : this->activities) { // For each activity in the activities vector
-        if (activity.getDateString().find(dateString) != string::npos) {  // If the date string is found in the activity date string. npos means not found in the string
+        if (TimeUtilities::dateToString(activity.getStartTime()).find(dateString) != string::npos) {  // If the date string is found in the activity date string. npos means not found in the string
             activitiesOnDate.push_back(activity); // Add the activity to the vector
         }
     }

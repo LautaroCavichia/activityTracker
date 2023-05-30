@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 //#pragma clang diagnostic push
 //#pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 //
@@ -6,6 +8,7 @@
 #include <wx/wx.h>
 #include <wx/spinctrl.h>
 #include "gui.h"
+#include "TimeUtilities.h"
 
 enum IDs {
     ID_AddActivity = 100,
@@ -227,7 +230,7 @@ if(wxIsEmpty(activityName) || wxIsEmpty(activityDescription)){
     m_activityName->SetFocus();
 
     wxLogStatus("Activity " + activityName + " added from " + formattedActivityStartTime + " to " + formattedActivityEndTime + " on " + formattedDate);
-    m_activityListBox->Append(activity.getName() + " - " + activity.getStartTimeString() + " to " + activity.getEndTimeString() + "\n"); //listbox version
+    m_activityListBox->Append(activity.getName() + " - " + TimeUtilities::timePointToString(activity.getStartTime())+ " to " + TimeUtilities::timePointToString(activity.getEndTime()) + "\n"); //listbox version
 
 
 }
@@ -237,7 +240,7 @@ void GUI::OnSearchByDate(wxCommandEvent &event) {
     auto activitiesOnDate = activityLog.searchByDate(searchDate.ToStdString());
     m_activityListBox->Clear(); //listbox version
     for (const Activity& activity : activitiesOnDate) {
-        wxString listItem = activity.getName() + wxT(" - ") + activity.getStartTimeString() + wxT(" to ") + activity.getEndTimeString() + wxT("\n");
+        wxString listItem = activity.getName() + wxT(" - ") + TimeUtilities::timePointToString(activity.getStartTime()) + wxT(" to ") + TimeUtilities::timePointToString(activity.getEndTime()) + wxT("\n");
         std::cout << listItem.ToStdString() << std::endl;
         m_activityListBox->Append(listItem); //listbox version
 
@@ -290,3 +293,5 @@ bool App::OnInit() {
     frame->Show(true);
     return true;
 }
+
+#pragma clang diagnostic pop

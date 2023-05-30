@@ -14,9 +14,6 @@
 #include <wx/simplebook.h>
 #include <string>
 #include <wx/timectrl.h>
-#include <wx/bmpbuttn.h>
-#include <wx/artprov.h>
-#include <wx/filename.h>
 
 #include "activity.h"
 #include "activity_log.h"
