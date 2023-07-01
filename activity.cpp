@@ -16,7 +16,7 @@ string Activity::getName() const {
 }
 
 string Activity::getDescription() const {
-    return this->description;
+        return this->description;
 }
 
 void Activity::setStartTime(const string &startTimeString) {
@@ -29,7 +29,7 @@ void Activity::setStartTime(const string &startTimeString) {
 
 void Activity::setEndTime(const string &startTimeString, const string &endTimeString) {
     // check if the end time is valid and greater than the start time
-    if(TimeUtilities::isEndAfterStart(startTimeString, endTimeString))
+    if(TimeUtilities::isEndAfterStart(startTimeString, endTimeString)&&!endTimeString.empty())
         this->endTime = TimeUtilities::stringToTimePoint(endTimeString);
     else {
         this->endTime = this->startTime;

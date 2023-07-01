@@ -3,9 +3,14 @@ project(activityTracker)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(activityTracker main.cpp gui.cpp gui.h activity.cpp activity.h activity_log.cpp activity_log.h TimeUtilities.cpp TimeUtilities.h)
-#adding wxWidgets library
+# Adding wxWidgets library
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(activityTracker ${wxWidgets_LIBRARIES})
+
+add_executable(activityTracker main.cpp gui.cpp gui.h activity.cpp activity.h activity_log.cpp activity_log.h TimeUtilities.cpp TimeUtilities.h)
+target_link_libraries(activityTracker PRIVATE ${wxWidgets_LIBRARIES})
+
+# Add the subdirectory for tests
+add_subdirectory(test)
+
 

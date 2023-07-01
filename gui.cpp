@@ -39,9 +39,6 @@ wxEND_EVENT_TABLE()
 
 GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame(nullptr, wxID_ANY, title, pos,wxSize(600,400), wxDEFAULT_FRAME_STYLE){
 
-    //TODO enable TAB navigation
-
-
     //disable resizing
     SetSizeHints( 600, 400 );
     wxSize maxSize = (wxSize(600, 400));
