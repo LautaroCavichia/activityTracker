@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include "activity.h"
+#include "IndexException.h"
 
 using namespace std;
 

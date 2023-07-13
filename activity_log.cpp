@@ -13,7 +13,9 @@ Activity &ActivityLog::getActivity(int index) {
 }
 
 void ActivityLog::removeActivity(int index) {
+    if(index < this->activities.size() && index >= 0)
     this->activities.erase(this->activities.begin() + index);
+    else throw IndexException();
 }
 
 [[nodiscard]] vector<Activity> ActivityLog::searchByDate(const string &dateString) const {
