@@ -31,6 +31,7 @@ private:
     void OnActivityName(wxCommandEvent &event);
     void OnAddDescription(wxCommandEvent &event);
     void OnAddActivityButton(wxCommandEvent &event);
+    void OnExportActivitiesButton(wxCommandEvent &event);
     void OnSearchByDate(wxCommandEvent &event);
     void OnActivityRightClick(wxCommandEvent &event);
     void OnActivityDelete(wxCommandEvent &event);
@@ -53,6 +54,7 @@ private:
     wxTextCtrl* m_description;
     wxButton* m_searchButton;
     wxButton* m_addActivityButton;
+    wxButton* m_exportButton;
     wxNotebook* m_notebook1;
     wxTextCtrl* m_notebookPage1;
     ActivityLog activityLog;

@@ -9,6 +9,7 @@
 #include <string>
 #include "activity.h"
 #include "IndexException.h"
+#include <fstream>
 
 using namespace std;
 
@@ -18,8 +19,8 @@ public:
     void removeActivity(int index);
     Activity &getActivity(int index); // Returns a reference to the activity at the given index
     [[nodiscard]] vector<Activity> searchByDate(const string &dateString)const; // Returns a vector of activities that match the date (Project requirement)
+    void exportActivities(const string &fileName) const;
 
-    //TODO: Add sorting methods and log to file methods
 
 private:
     vector<Activity> activities;

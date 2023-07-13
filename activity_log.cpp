@@ -20,10 +20,28 @@ void ActivityLog::removeActivity(int index) {
 
 [[nodiscard]] vector<Activity> ActivityLog::searchByDate(const string &dateString) const {
     vector<Activity> activitiesOnDate;
-    for (const Activity& activity : this->activities) { // For each activity in the activities vector
+    for (const Activity& activity : this->activities) {
         if (TimeUtilities::dateToString(activity.getStartTime()).find(dateString) != string::npos) {  // If the date string is found in the activity date string. npos means not found in the string
-            activitiesOnDate.push_back(activity); // Add the activity to the vector
+            activitiesOnDate.push_back(activity);
         }
     }
-    return activitiesOnDate; //Return a reference to the vector? is it possible?
+    return activitiesOnDate;
+}
+
+void ActivityLog::exportActivities(const string &fileName) const {
+    ofstream file;
+    file.open(fileName);
+    if(file.is_open()) {
+        if(this->activities.empty())
+            file << "No activities to export" << endl;
+        else{
+        for (const Activity &activity: this->activities) {
+            file << activity.getName() + " - " + TimeUtilities::timePointToString(activity.getStartTime()) + " to " +
+                    TimeUtilities::timePointToString(activity.getEndTime()) + "\n" << endl;
+        }
+        file.close();
+    }}
+    else
+        throw std::runtime_error("File not found");
+
 }

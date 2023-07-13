@@ -1,7 +1,5 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
-//#pragma clang diagnostic push
-//#pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 //
 // Created by Lautaro Cavichia on 03/04/23.
 //
@@ -21,11 +19,13 @@ enum IDs {
     ID_ActivityList = 130,
     ID_ActivityDelete = 140,
     ID_ActivityEdit = 141,
-    ID_AboutMe = 150
+    ID_AboutMe = 150,
+    ID_Export = 160
 };
 
 wxBEGIN_EVENT_TABLE(GUI, wxFrame)
                 EVT_BUTTON(ID_AddActivity, GUI::OnAddActivityButton)
+                EVT_BUTTON(ID_Export, GUI::OnExportActivitiesButton)
                 EVT_TIME_CHANGED(ID_StartTime, GUI::OnSelectStartTime)
                 EVT_TIME_CHANGED(ID_EndTime, GUI::OnSelectEndTime)
                 EVT_DATE_CHANGED(ID_Date, GUI::OnSelectDate)
@@ -116,6 +116,11 @@ GUI::GUI(const wxString &title, const wxPoint &pos, const wxSize &size): wxFrame
     m_addActivityButton = new wxButton( this, ID_AddActivity, wxT("Add Activity"), wxDefaultPosition, wxDefaultSize, 0 );
     bSizer5->Add( m_addActivityButton, 0, wxALIGN_CENTER|wxALL, 5 );
     m_addActivityButton->SetBackgroundColour(wxColour(16, 25, 53));
+
+    //Export button
+    m_exportButton = new wxButton( this, ID_Export, wxT("Export"), wxDefaultPosition, wxDefaultSize, 0 );
+    bSizer5->Add( m_exportButton, 0, wxALIGN_CENTER|wxALL, 5 );
+    m_exportButton->SetBackgroundColour(wxColour(16, 25, 53));
 
 
     bSizer6->Add( bSizer5, 1, wxLEFT|wxRIGHT, 20 );
@@ -232,6 +237,11 @@ if(wxIsEmpty(activityName) || wxIsEmpty(activityDescription)){
 
 }
 
+void GUI::OnExportActivitiesButton(wxCommandEvent &event) {
+    std::string fileName = "activities.txt";
+    activityLog.exportActivities(fileName);
+}
+
 void GUI::OnSearchByDate(wxCommandEvent &event) {
     wxString searchDate = m_datePicker1->GetValue().Format("%d/%m/%Y");
     auto activitiesOnDate = activityLog.searchByDate(searchDate.ToStdString());
@@ -290,5 +300,3 @@ bool App::OnInit() {
     frame->Show(true);
     return true;
 }
-
-#pragma clang diagnostic pop
