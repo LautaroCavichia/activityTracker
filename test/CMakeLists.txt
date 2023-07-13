@@ -9,7 +9,7 @@ find_package(GTest REQUIRED)
 
 # Add the test executable
 set(TEST_SOURCE_FILES ActivityTest.cpp TestMain.cpp
-        ../activity.cpp ../TimeUtilities.cpp)
+        ../activity.cpp ../TimeUtilities.cpp ../activity_log.cpp ActivityLogTest.cpp TimeUtilitiesTest.cpp)
 add_executable(runTests ${TEST_SOURCE_FILES})
 
 # Link the Google Test libraries

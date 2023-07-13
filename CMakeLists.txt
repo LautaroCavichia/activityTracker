@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(wxWidgets REQUIRED COMPONENTS core base)
 include(${wxWidgets_USE_FILE})
 
-add_executable(activityTracker main.cpp gui.cpp gui.h activity.cpp activity.h activity_log.cpp activity_log.h TimeUtilities.cpp TimeUtilities.h)
+add_executable(activityTracker main.cpp gui.cpp gui.h activity.cpp activity.h activity_log.cpp activity_log.h TimeUtilities.cpp TimeUtilities.h IndexException.cpp IndexException.h)
 target_link_libraries(activityTracker PRIVATE ${wxWidgets_LIBRARIES})
 
 # Add the subdirectory for tests
