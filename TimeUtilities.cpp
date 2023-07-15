@@ -13,7 +13,7 @@ chrono::system_clock::time_point TimeUtilities::stringToTimePoint(const string &
     return chrono::system_clock::from_time_t(mktime(&time))- chrono::minutes(60); // Convert tm to time_point and subtract 1 hour (offset)
 }
 
-bool TimeUtilities::isEndAfterStart(const string &startTimeString, const string &endTimeString) { // Check if the end time is greater than the start time and if they are in the same day
+bool TimeUtilities::isEndAfterStart(const string &startTimeString, const string &endTimeString) {
     tm startTime_tm = {};
     istringstream ssStart(startTimeString);
     ssStart >> get_time(&startTime_tm, "%d/%m/%Y %H:%M:%S");
@@ -22,7 +22,7 @@ bool TimeUtilities::isEndAfterStart(const string &startTimeString, const string 
     istringstream ssEnd(endTimeString);
     ssEnd >> get_time(&endTime_tm, "%d/%m/%Y %H:%M:%S");
 
-    //check if the end time is greater than the start time
+    // Check if the end time is greater than the start time
     std::time_t startTime_t = mktime(&startTime_tm);
     std::time_t endTime_t = mktime(&endTime_tm);
 
@@ -31,6 +31,7 @@ bool TimeUtilities::isEndAfterStart(const string &startTimeString, const string 
     else
         return true;
 }
+
 
 
  string TimeUtilities::timePointToString(const chrono::system_clock::time_point &timePoint ,bool onlyTime) {

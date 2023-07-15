@@ -13,15 +13,20 @@ Activity &ActivityLog::getActivity(int index) {
 }
 
 void ActivityLog::removeActivity(int index) {
-    if(index < this->activities.size() && index >= 0)
-    this->activities.erase(this->activities.begin() + index);
-    else throw IndexException();
+    try {
+        if (index < this->activities.size() && index >= 0)
+            this->activities.erase(this->activities.begin() + index);
+        else throw IndexException();
+    }
+    catch (const IndexException &e) {
+        cout << e.what() << endl;
+    }
 }
 
 [[nodiscard]] vector<Activity> ActivityLog::searchByDate(const string &dateString) const {
     vector<Activity> activitiesOnDate;
     for (const Activity& activity : this->activities) {
-        if (TimeUtilities::dateToString(activity.getStartTime()).find(dateString) != string::npos) {  // If the date string is found in the activity date string. npos means not found in the string
+        if (TimeUtilities::dateToString(activity.getStartTime()).find(dateString) != string::npos) {  //npos means not found in the string
             activitiesOnDate.push_back(activity);
         }
     }
@@ -42,6 +47,6 @@ void ActivityLog::exportActivities(const string &fileName) const {
         file.close();
     }}
     else
-        throw std::runtime_error("File not found");
+        cout << "Unable to open file";
 
 }

@@ -10,6 +10,7 @@
 #include "activity.h"
 #include "IndexException.h"
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 

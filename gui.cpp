@@ -216,8 +216,8 @@ if(wxIsEmpty(activityName) || wxIsEmpty(activityDescription)){
         return;
     }
 
-    wxDateTime startDateTime = wxDateTime(m_datePicker1->GetValue().GetDay(), m_datePicker1->GetValue().GetMonth(), m_datePicker1->GetValue().GetYear(), m_startTime->GetValue().GetHour(), 0);
-    wxDateTime endDateTime = wxDateTime(m_datePicker1->GetValue().GetDay(), m_datePicker1->GetValue().GetMonth(), m_datePicker1->GetValue().GetYear(), m_endTime->GetValue().GetHour(), 0);
+    wxDateTime startDateTime = wxDateTime(m_datePicker1->GetValue().GetDay(), m_datePicker1->GetValue().GetMonth(), m_datePicker1->GetValue().GetYear(), m_startTime->GetValue().GetHour(), m_startTime->GetValue().GetMinute());
+    wxDateTime endDateTime = wxDateTime(m_datePicker1->GetValue().GetDay(), m_datePicker1->GetValue().GetMonth(), m_datePicker1->GetValue().GetYear(), m_endTime->GetValue().GetHour(), m_endTime->GetValue().GetMinute());
     wxString formattedDateActivityStartTime = startDateTime.Format("%d/%m/%Y %H:%M:%S");
     wxString formattedDateActivityEndTime = endDateTime.Format("%d/%m/%Y %H:%M:%S");
 
