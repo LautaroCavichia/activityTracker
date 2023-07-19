@@ -9,18 +9,15 @@ void ActivityLog::addActivity(const Activity &activity) {
 }
 
 Activity &ActivityLog::getActivity(int index) {
-    return this->activities[index];
+    if (index < this->activities.size() && index >= 0)
+        return this->activities[index];
+    else throw IndexException();
 }
 
 void ActivityLog::removeActivity(int index) {
-    try {
-        if (index < this->activities.size() && index >= 0)
+    if (index < this->activities.size() && index >= 0)
             this->activities.erase(this->activities.begin() + index);
-        else throw IndexException();
-    }
-    catch (const IndexException &e) {
-        cout << e.what() << endl;
-    }
+    else throw IndexException();
 }
 
 [[nodiscard]] vector<Activity> ActivityLog::searchByDate(const string &dateString) const {

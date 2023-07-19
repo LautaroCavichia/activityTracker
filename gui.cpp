@@ -268,20 +268,30 @@ void GUI::OnActivityRightClick(wxCommandEvent &event) {
 
 void GUI::OnActivityDelete(wxCommandEvent &event) {
     int selection = m_activityListBox->GetSelection();
+    try {
         m_activityListBox->Delete(selection);
         activityLog.removeActivity(selection);
         wxLogStatus("Activity deleted successfully");
     }
+    catch (const IndexException &e) {
+        wxMessageBox("Index out of bounds");
+    }
+}
 
 
 void GUI::OnActivityEdit(wxCommandEvent &event) {
-int selection = m_activityListBox->GetSelection();
-m_addActivityButton->SetLabel("Update");
-m_activityName->SetValue(activityLog.getActivity(selection).getName());
-m_description->SetValue((activityLog.getActivity(selection).getDescription()));
-OnActivityDelete(event);
-m_addActivityButton->SetLabel("Add Activity");
-wxLogStatus("Activity edited successfully");
+    int selection = m_activityListBox->GetSelection();
+    m_addActivityButton->SetLabel("Update");
+    try {
+        m_activityName->SetValue(activityLog.getActivity(selection).getName());
+        m_description->SetValue((activityLog.getActivity(selection).getDescription()));
+        OnActivityDelete(event);
+        m_addActivityButton->SetLabel("Add Activity");
+        wxLogStatus("Activity edited successfully");
+    }
+    catch (const IndexException &e) {
+        wxMessageBox("Index out of bounds");
+    }
 }
 
 void GUI::OnSeeDescription(wxCommandEvent &event) {

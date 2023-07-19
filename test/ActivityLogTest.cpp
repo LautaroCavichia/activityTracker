@@ -101,12 +101,7 @@ TEST(logTest, removingNegativeIndex) {
 
     ASSERT_EQ(log.searchByDate("08/06/2023").size(), 1);
 
-    try {
-        log.removeActivity(-19);
-        FAIL();
-    } catch (const IndexException& e) {
-        SUCCEED();
-    }
+    ASSERT_THROW(log.removeActivity(-1), IndexException);
 
     ASSERT_EQ(log.searchByDate("08/06/2023").size(), 1);
 }
@@ -118,12 +113,17 @@ TEST(logTest, removingOutOfBoundIndex){
 
     ASSERT_EQ(log.searchByDate("08/06/2023").size(), 1);
 
-    try {
-        log.removeActivity(19);
-        FAIL();
-    } catch (const IndexException& e) {
-        SUCCEED();
-    }
+    ASSERT_THROW(log.removeActivity(19), IndexException);
 
     ASSERT_EQ(log.searchByDate("08/06/2023").size(), 1);
+}
+
+TEST(logTest, searchOutOfRange){
+    ActivityLog log;
+    Activity activity("Prova1", "08/06/2023 09:45:00", "08/06/2023 10:17:00", "Questa è una prova");
+    log.addActivity(activity);
+
+    ASSERT_THROW(log.getActivity(-1), IndexException);
+    ASSERT_THROW(log.getActivity(19), IndexException);
+
 }
