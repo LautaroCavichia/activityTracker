@@ -285,13 +285,15 @@ void GUI::OnActivityEdit(wxCommandEvent &event) {
     try {
         m_activityName->SetValue(activityLog.getActivity(selection).getName());
         m_description->SetValue((activityLog.getActivity(selection).getDescription()));
-        OnActivityDelete(event);
-        m_addActivityButton->SetLabel("Add Activity");
+        Activity updateActivity(activityLog.getActivity(selection).getName(),TimeUtilities::timePointToString(activityLog.getActivity(selection).getStartTime()),TimeUtilities::timePointToString(activityLog.getActivity(selection).getEndTime()), activityLog.getActivity(selection).getDescription());
+        activityLog.editActivity(selection, updateActivity);
+        m_activityListBox->Delete(selection);
         wxLogStatus("Activity edited successfully");
     }
     catch (const IndexException &e) {
         wxMessageBox("Index out of bounds");
     }
+    m_addActivityButton->SetLabel("Add Activity");
 }
 
 void GUI::OnSeeDescription(wxCommandEvent &event) {

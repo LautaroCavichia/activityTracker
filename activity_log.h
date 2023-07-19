@@ -21,6 +21,7 @@ public:
     Activity &getActivity(int index); // Returns a reference to the activity at the given index
     [[nodiscard]] vector<Activity> searchByDate(const string &dateString)const; // Returns a vector of activities that match the date (Project requirement)
     void exportActivities(const string &fileName) const;
+    void editActivity(int index, const Activity &activity);
 
 
 private:

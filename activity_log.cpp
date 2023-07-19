@@ -47,3 +47,14 @@ void ActivityLog::exportActivities(const string &fileName) const {
         cout << "Unable to open file";
 
 }
+
+void ActivityLog::editActivity(int index, const Activity &activity) {
+    if (index < this->activities.size() && index >= 0) {
+        this->activities.erase(this->activities.begin() + index);
+        this->activities.insert(this->activities.begin() + index, activity);
+    }
+    else {
+        throw IndexException();
+    }
+}
+
