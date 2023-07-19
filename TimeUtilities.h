@@ -10,12 +10,11 @@
 
 using namespace std;
 
-class TimeUtilities {
-public:
-    static chrono::system_clock::time_point stringToTimePoint(const string &timeString);
-    static bool isEndAfterStart(const string &startTimeString, const string &endTimeString) ;
-    static string timePointToString(const chrono::system_clock::time_point &timePoint,bool onlyTime = true);
-    static string dateToString(const chrono::system_clock::time_point &timePoint);
+namespace TimeUtilities {
+     chrono::system_clock::time_point stringToTimePoint(const string &timeString);
+     bool isEndAfterStart(const string &startTimeString, const string &endTimeString) ;
+     string timePointToString(const chrono::system_clock::time_point &timePoint,bool onlyTime = true);
+     string dateToString(const chrono::system_clock::time_point &timePoint);
 
 };
 
